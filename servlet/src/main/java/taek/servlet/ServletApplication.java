@@ -2,13 +2,13 @@ package taek.servlet;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import taek.servlet.thread.HelloRunnable;
-import taek.servlet.thread.HelloThread;
+import taek.servlet.thread.*;
 
-import java.util.Queue;
-import java.util.Scanner;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.concurrent.locks.LockSupport;
 
+import static taek.servlet.thread.util.ExecutorUtils.printState;
 import static taek.servlet.thread.util.ThreadUtil.sleep;
 import static taek.servlet.thread.util.MyLogger.log;
 
@@ -17,33 +17,9 @@ import static taek.servlet.thread.util.MyLogger.log;
 public class ServletApplication {
 
 	public static void main(String[] args) {
-		MyTask task = new MyTask();
-		Thread t = new Thread(task, "work");
-		t.start();
-		sleep(1000);
-		task.flag = false;
-		log("flag = " + task.flag + ", count = " + task.count + " in main");
+		SpringApplication.run(ServletApplication.class, args);
 	}
 
-
-	static class MyTask implements Runnable {
-		 boolean flag = true;
-		 long count;
-		//volatile boolean flag = true;
-		//volatile long count;
-		@Override
-		public void run() {
-			while (flag) {
-				count++;
-				//1억번에 한번씩 출력
-				if (count % 100_000_000 == 0) {
-					//주석 처리 한다면...
-					log("flag = " + flag + ", count = " + count + " in while()");
-				}
-			}
-			log("flag = " + flag + ", count = " + count + " 종료"); }
-
-	}
 }
 
 
