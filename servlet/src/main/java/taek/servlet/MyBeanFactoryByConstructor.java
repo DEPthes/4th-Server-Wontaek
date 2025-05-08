@@ -13,8 +13,11 @@ import java.util.Map;
 public class MyBeanFactoryByConstructor {
 
     private final Map<String, Object> beanMap = new HashMap<>();
+    private final BeanCreator beanCreator;  // 생성 전략을 주입
 
-    public MyBeanFactoryByConstructor(String configPath) throws Exception {
+
+    public MyBeanFactoryByConstructor(String configPath, BeanCreator beanCreator) throws Exception {
+        this.beanCreator = beanCreator;
         loadBeans(configPath);
     }
 
@@ -78,7 +81,7 @@ public class MyBeanFactoryByConstructor {
             params[i] = refBean;
         }
 
-        Object instance = constructor.newInstance(params);
+        Object instance = beanCreator.createBean(clazz, params);
         beanMap.put(id, instance);
         return instance;
     }

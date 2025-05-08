@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
     <bean id="memberRepository" class="taek.servlet.MemberRepository" />
+
+<!--    <bean id="memberService" class="taek.servlet.MemberService">-->
+<!--        <property name="memberRepository" ref="memberRepository" />-->
+<!--    </bean>-->
     <bean id="memberService" class="taek.servlet.MemberService">
-        <property name="memberRepository" ref="memberRepository" />
+        <constructor-arg ref="memberRepository" />
     </bean>
+
 </beans>
